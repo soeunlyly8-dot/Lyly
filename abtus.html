@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <!-- Google Fonts for Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Pacifico&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #2b2b2b;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            background-color: #111;
+        }
+
+        /* --- Background Slideshow Styles --- */
+        .bg-slider {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-size: cover;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .bg-slide.active {
+            opacity: 1;
+        }
+
+        /* Dark overlay to make text pop against background images */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: -1;
+        }
+
+        /* --- Header Styles --- */
+        header {
+            padding: 20px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #df1d1d;
+            gap: 30px;
+            flex-wrap: wrap;
+            border-radius: 20px;
+            margin: 20px auto;
+            max-width: 95%;
+            box-shadow: 0 10px 25px rgba(223, 29, 29, 0.25);
+            position: sticky;
+            top: 15px;
+            z-index: 1000;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-area i {
+            background-color: #ffffff;
+            color: #df1d1d;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-family: 'Pacifico', cursive;
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        header nav a {
+            color: #ffcccc;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        header nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #ffffff;
+            transition: width 0.3s ease;
+        }
+
+        header nav a:hover {
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        header nav a:hover::after {
+            width: 100%;
+        }
+
+        .book-btn {
+            background-color: #ffffff;
+            color: #df1d1d !important;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-weight: 600 !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: all 0.3s ease !important;
+        }
+
+        .book-btn::after {
+            display: none !important;
+        }
+
+        .book-btn:hover {
+            background-color: #ffcccc;
+            transform: translateY(-3px) scale(1.02) !important;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        /* --- Page Hero Section --- */
+        .about-hero {
+            text-align: center;
+            padding: 60px 5% 40px 5%;
+        }
+
+        .about-hero h2 {
+            color: #ffffff;
+            font-family: 'Cinzel', serif;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px #df1d1d, 0 4px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .about-hero p {
+            color: #ffcccc;
+            font-size: 18px;
+            max-width: 650px;
+            margin: 0 auto;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        /* --- About Content Section --- */
+        .about-container {
+            max-width: 1200px;
+            margin: 20px auto 60px auto;
+            padding: 0 5%;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .about-text h3 {
+            color: #df1d1d;
+            font-family: 'Cinzel', serif;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            color: #ddd;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .about-img-wrapper {
+            width: 100%;
+            height: 350px;
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #222;
+        }
+
+        .about-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- Values Section --- */
+        .values-section {
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(8px);
+            border-top: 2px solid rgba(223, 29, 29, 0.5);
+            padding: 60px 5%;
+            margin-top: 40px;
+        }
+
+        .section-title {
+            text-align: center;
+            color: #ffffff;
+            font-family: 'Cinzel', serif;
+            font-size: 36px;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .value-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px 25px;
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            border-color: #df1d1d;
+        }
+
+        .value-card i {
+            font-size: 36px;
+            color: #df1d1d;
+            margin-bottom: 20px;
+        }
+
+        .value-card h4 {
+            color: #ffffff;
+            font-size: 20px;
+            margin-bottom: 12px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .value-card p {
+            color: #ddd;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* --- Master Chefs Section --- */
+        .chefs-section {
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            border-top: 2px solid rgba(223, 29, 29, 0.5);
+            padding: 60px 5%;
+            margin-top: 40px;
+        }
+
+        .chefs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .chef-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .chef-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(223, 29, 29, 0.3);
+            border-color: #df1d1d;
+        }
+
+        .chef-img-wrapper {
+            width: 100%;
+            height: 240px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            background-color: #222;
+        }
+
+        .chef-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .chef-card h3 {
+            color: #ffffff;
+            font-size: 20px;
+            margin-bottom: 5px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .chef-role {
+            color: #df1d1d;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .chef-card p {
+            color: #ddd;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* --- Location & Contact Banner Section --- */
+        .info-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 5%;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .info-box h3 {
+            color: #df1d1d;
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-box p {
+            color: #ddd;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        /* --- Footer Section --- */
+        footer {
+            background-color: #111111;
+            color: #fff;
+            padding: 50px 5% 20px 5%;
+            border-top: 1px solid #333;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+        }
+
+        .footer-col h4 {
+            color: #df1d1d;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .footer-col p, .footer-col a {
+            color: #bbb;
+            font-size: 14px;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: #ffffff;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-icons a {
+            background: #df1d1d;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+
+        .social-icons a:hover {
+            transform: scale(1.1);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #222;
+            padding-top: 20px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 900px) {
+            .about-grid, .info-grid, .chefs-grid {
+                grid-template-columns: 1fr;
+            }
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Slider Elements with Dark Overlay -->
+    <div class="bg-slider">
+        <div class="bg-slide active" style="background-image: url('khmer.jpg');"></div>
+        <div class="bg-slide" style="background-image: url('ahmok.jpg');"></div>
+        <div class="bg-slide" style="background-image: url('lokloak.jpg');"></div>
+    </div>
+    <div class="overlay"></div>
+
+    <header>
+        <nav>
+            <a href="#" class="logo-area">
+                <i class="fa-solid fa-utensils"></i>
+                <h1>Krama & Spice</h1>
+            </a>
+            <div class="nav-links">
+                <a href="home.html">Home</a>
+                <a href="abtus.html">About Us</a>
+                <a href="menu.html">Menu</a>
+                <a href="booktable.html" class="book-btn">Book a Table</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Hero Banner -->
+    <section class="about-hero">
+        <h2>Our Story & Heritage</h2>
+        <p>Discover the passion, tradition, and global fusion behind every plate served at Krama & Spice.</p>
+    </section>
+
+    <!-- About Content Section -->
+    <div class="about-container">
+        <!-- Khmer Tradition Grid -->
+        <div class="about-grid">
+            <div class="about-text">
+                <h3>Rooted in Khmer Tradition</h3>
+                <p>Founded with a deep love for Cambodian culture, <strong>Krama & Spice</strong> takes its name from the traditional Khmer checkered scarf (Krama) and the rich, aromatic spice blends that define our culinary legacy.</p>
+                <p>Every recipe we serve has been passed down through generations, combining fresh ingredients, vibrant herbs, and traditional Kroeung pastes to bring the genuine taste of Cambodia straight to your table.</p>
+            </div>
+            <div class="about-img-wrapper">
+                <img src="ahmok.jpg" alt="Cambodian Culture and Kitchen">
+            </div>
+        </div>
+
+        <!-- European Culinary Fusion Grid -->
+        <div class="about-grid">
+            <div class="about-img-wrapper">
+                <img src="e.jpg" alt="European Culinary Infusion">
+            </div>
+            <div class="about-text">
+                <h3>A Touch of European Elegance</h3>
+                <p>While our heart beats firmly in Southeast Asia, our culinary horizon extends westward. At Krama & Spice, we embrace the finesse of <strong>European gastronomy</strong>, blending classical continental techniques with local tropical flavors.</p>
+                <p>From carefully crafted reduction sauces and artisanal baking approaches to expertly paired continental dishes, we curate a unique dining adventure where timeless European refinement harmonizes gracefully with the bold, earthy spices of the East.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Values Section -->
+    <section class="values-section">
+        <h2 class="section-title">What We Stand For</h2>
+        <div class="values-grid">
+            <div class="value-card">
+                <i class="fa-solid fa-seedling"></i>
+                <h4>Fresh Ingredients</h4>
+                <p>We source local, high-quality vegetables, river fish, and meats daily to guarantee authentic texture and peak flavor in every dish.</p>
+            </div>
+            <div class="value-card">
+                <i class="fa-solid fa-fire-burner"></i>
+                <h4>Authentic Recipes</h4>
+                <p>No shortcuts taken. We honor time-tested cooking techniques like handmade curry pastes and slow-simmered herbal broths.</p>
+            </div>
+            <div class="value-card">
+                <i class="fa-solid fa-heart"></i>
+                <h4>Warm Hospitality</h4>
+                <p>Embodying the gentle spirit of Cambodia, our team welcomes every guest like family into a cozy, heritage-inspired atmosphere.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Master Chefs Section -->
+    <section class="chefs-section">
+        <h2 class="section-title">Meet Our Master Chefs</h2>
+        <div class="chefs-grid">
+            <div class="chef-card">
+                <div class="chef-img-wrapper">
+                    <img src="jennifer.webp" alt="Chef Jennifer">
+                </div>
+                <h3>Chef Jennifer</h3>
+                <div class="chef-role">Executive Chef</div>
+                <p>With over 25 years of experience mastering royal Khmer and international fusion recipes, Chef Jennifer leads our kitchen with a deep respect for historical flavors and presentation.</p>
+            </div>
+            <div class="chef-card">
+                <div class="chef-img-wrapper">
+                    <img src="chef.jpg" alt="Chef Chantha Vong">
+                </div>
+                <h3>Chef Chantha Vong</h3>
+                <div class="chef-role">Kroeung & Spice Specialist</div>
+                <p>An expert in traditional hand-pounded herbal spice pastes, Chef Chantha brings the bold, aromatic foundation that gives our curries their signature depth.</p>
+            </div>
+            <div class="chef-card">
+                <div class="chef-img-wrapper">
+                    <img src="gii.jpg" alt="Chef Borey Pich">
+                </div>
+                <h3>Chef Borey Pich</h3>
+                <div class="chef-role">Pastry & European Culinary Expert</div>
+                <p>Blending classic European pastry craft with nostalgic Khmer treats, Chef Borey turns refined culinary artistry into delicate, unforgettable desserts.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Contact Info Section -->
+    <section class="info-section">
+        <info-grid class="info-grid">
+            <div class="info-box">
+                <h3><i class="fa-solid fa-location-dot"></i> Restaurant Location</h3>
+                <p><strong>Krama & Spice Khmer & Fusion Restaurant</strong></p>
+                <p>#28, Street 09, Wat Bo Village, Salakamreuk Commune</p>
+                <p>Siem Reap, Kingdom of Cambodia</p>
+            </div>
+            <div class="info-box">
+                <h3><i class="fa-solid fa-phone"></i> Contact & Support</h3>
+                <p><strong>Phone / Reservations:</strong> +855 63 892 4105</p>
+                <p><strong>Direct Line:</strong> +855 12 456 7890</p>
+                <p><strong>Email:</strong> info@kramaspice.com</p>
+            </div>
+        </info-grid>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Krama & Spice</h4>
+                <p>Dedicated to sharing the authentic, vibrant heritage of Khmer taste alongside fine European influences with food lovers everywhere.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="#">Our Menu</a>
+                <a href="#">Our Story</a>
+                <a href="#">Reservations</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <div class="footer-col">
+                <h4>Opening Hours</h4>
+                <p>Monday – Friday: 10:00 AM – 10:00 PM</p>
+                <p>Saturday – Sunday: 9:00 AM – 11:00 PM</p>
+            </div>
+            <div class="footer-col">
+                <h4>Connect With Us</h4>
+                <p>Follow our culinary journey on social media.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Krama & Spice Restaurant. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript to handle background switching every 3 seconds -->
+    <script>
+        const slides = document.querySelectorAll('.bg-slide');
+        let currentSlide = 0;
+
+        function changeBackground() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        setInterval(changeBackground, 3000);
+    </script>
+</body>
+</html>

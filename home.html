@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <!-- Google Fonts for Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Pacifico&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #2b2b2b;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            background-color: #111;
+        }
+
+        /* --- Background Slideshow Styles --- */
+        .bg-slider {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-size: cover;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .bg-slide.active {
+            opacity: 1;
+        }
+
+        /* Dark overlay to make text pop against background images */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: -1;
+        }
+
+        /* --- Header Styles --- */
+        header {
+            padding: 20px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #df1d1d;
+            gap: 30px;
+            flex-wrap: wrap;
+            border-radius: 20px;
+            margin: 20px auto;
+            max-width: 95%;
+            box-shadow: 0 10px 25px rgba(223, 29, 29, 0.25);
+            position: sticky;
+            top: 15px;
+            z-index: 1000;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-area i {
+            background-color: #ffffff;
+            color: #df1d1d;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-family: 'Pacifico', cursive;
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        header nav a {
+            color: #ffcccc;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        header nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #ffffff;
+            transition: width 0.3s ease;
+        }
+
+        header nav a:hover {
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        header nav a:hover::after {
+            width: 100%;
+        }
+
+        .book-btn {
+            background-color: #ffffff;
+            color: #df1d1d !important;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-weight: 600 !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: all 0.3s ease !important;
+        }
+
+        .book-btn::after {
+            display: none !important;
+        }
+
+        .book-btn:hover {
+            background-color: #ffcccc;
+            transform: translateY(-3px) scale(1.02) !important;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        /* --- Hero Intro Badge (Komi Class) --- */
+        .komi {
+            background: rgba(255, 255, 255, 0.25);   
+            backdrop-filter: blur(12px);             
+            -webkit-backdrop-filter: blur(12px);      
+            border: 1px solid rgba(255, 255, 255, 0.4); 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 20px;                     
+            padding: 20px 25px;                       
+            max-width: 480px;                         
+            margin: 40px 0 20px 5%;                   
+            display: block;                           
+        }
+
+        .komi p {
+            color: #ffffff;                           
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;                          
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            line-height: 1.4;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);  
+        }
+
+        /* --- Hero Title (Koja Class) --- */
+        .koja {
+            margin-left: 5%;
+            margin-top: 10px;
+            max-width: 750px;
+            margin-bottom: 80px;
+        }
+
+        .koja h1 {
+            color: #ffffff;
+            font-family: 'Cinzel', serif;
+            font-size: 44px;
+            font-weight: 700;
+            line-height: 1.25;
+            text-shadow: 0 0 20px #df1d1d, 0 0 30px #df1d1d, 0 4px 8px rgba(0, 0, 0, 0.8);
+            letter-spacing: 1px;
+        }
+
+        .koja h1 span {
+            font-size: 32px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            color: #ffcccc;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        /* --- Featured Menu Preview Section --- */
+       
+        /* --- Footer Section --- */
+        footer {
+            background-color: #111111;
+            color: #fff;
+            padding: 50px 5% 20px 5%;
+            border-top: 1px solid #333;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+        }
+
+        .footer-col h4 {
+            color: #df1d1d;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .footer-col p, .footer-col a {
+            color: #bbb;
+            font-size: 14px;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: #ffffff;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-icons a {
+            background: #df1d1d;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+
+        .social-icons a:hover {
+            transform: scale(1.1);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #222;
+            padding-top: 20px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        .jake {
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 900px) {
+            .dish-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .dish-grid {
+                grid-template-columns: 1fr;
+            }
+            .koja h1 {
+                font-size: 32px;
+            }
+            .koja h1 span {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Slider Elements with Dark Overlay -->
+    <div class="bg-slider">
+        <div class="bg-slide active" style="background-image: url('khmer.jpg');"></div>
+        <div class="bg-slide" style="background-image: url('ahmok.jpg');"></div>
+        <div class="bg-slide" style="background-image: url('lokloak.jpg');"></div>
+    </div>
+    <div class="overlay"></div>
+
+    <!-- Header Navigation -->
+    <header>
+        <nav>
+            <a href="#" class="logo-area">
+                <i class="fa-solid fa-utensils"></i>
+                <h1>Krama & Spice</h1>
+            </a>
+            <div class="nav-links">
+                <a href="home.html">Home</a>
+                <a href="abtus.html">About Us</a>
+                <a href="menu.html">Menu</a>
+                <a href="booktable.html" class="book-btn">Book a Table</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Introduction Badge -->
+    <div class="komi">
+        <p>ENJOY MEALS WITH KHMER TRADITIONAL FOOD</p>
+    </div>
+
+    <!-- Main Hero Title -->
+    <div class="koja">
+        <h1>Authentic Flavors of CAMBODIA<br><span>A Taste of Khmer Heritage</span></h1>
+    </div>
+
+    <div class="jake">
+        <!-- Empty spacing holder -->
+    </div> 
+
+    <!-- Featured Khmer Food Section (Clean 3-Columns x 2-Rows Grid with Box-Fit Cover Images) -->
+    
+
+    <!-- Khmer Snack Section with 6 Boxes -->
+    
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Krama & Spice</h4>
+                <p>Dedicated to sharing the authentic, vibrant heritage and rich tastes of Khmer food with food lovers everywhere.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="#">Our Menu</a>
+                <a href="#">Our Story</a>
+                <a href="#">Reservations</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <div class="footer-col">
+                <h4>Opening Hours</h4>
+                <p>Monday – Friday: 07:00 AM – 10:00 PM</p>
+                <p>Saturday – Sunday: 9:00 AM – 11:00 PM</p>
+            </div>
+            <div class="footer-col">
+                <h4>Connect With Us</h4>
+                <p>Follow our culinary journey on social media.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Krama & Spice Khmer Restaurant. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript to handle background switching every 3 seconds -->
+    <script>
+        const slides = document.querySelectorAll('.bg-slide');
+        let currentSlide = 0;
+
+        function changeBackground() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        setInterval(changeBackground, 3000);
+    </script>
+</body>
+</html>

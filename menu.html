@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MENU</title>
+    <!-- Google Fonts for Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #2b2b2b;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            background-color: #111;
+        }
+
+        /* --- Background Slideshow Styles --- */
+        .bg-slider {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-size: cover;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .bg-slide.active {
+            opacity: 1;
+        }
+
+        /* Dark overlay to make text pop against background images */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: -1;
+        }
+
+        /* --- Header Styles --- */
+        header {
+            padding: 20px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #df1d1d;
+            gap: 30px;
+            flex-wrap: wrap;
+            border-radius: 20px;
+            margin: 20px auto;
+            max-width: 95%;
+            box-shadow: 0 10px 25px rgba(223, 29, 29, 0.25);
+            position: sticky;
+            top: 15px;
+            z-index: 1000;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-area i {
+            background-color: #ffffff;
+            color: #df1d1d;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-family: 'Cinzel', serif;
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        header nav a {
+            color: #ffcccc;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        header nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #ffffff;
+            transition: width 0.3s ease;
+        }
+
+        header nav a:hover {
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        header nav a:hover::after {
+            width: 100%;
+        }
+
+        .book-btn {
+            background-color: #ffffff;
+            color: #df1d1d !important;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-weight: 600 !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: all 0.3s ease !important;
+        }
+
+        .book-btn::after {
+            display: none !important;
+        }
+
+        .book-btn:hover {
+            background-color: #ffcccc;
+            transform: translateY(-3px) scale(1.02) !important;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        /* --- Featured Menu Preview Section --- */
+        .featured-section {
+            padding: 60px 5%;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(8px);
+            margin-top: 40px;
+            border-top: 2px solid rgba(223, 29, 29, 0.5);
+        }
+
+        .section-title {
+            text-align: center;
+            color: #ffffff;
+            font-family: 'Cinzel', serif;
+            font-size: 36px;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .dish-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .dish-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dish-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(223, 29, 29, 0.3);
+            border-color: #df1d1d;
+        }
+
+        .dish-img-wrapper {
+            width: 100%;
+            height: 220px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            background-color: #222;
+        }
+
+        .dish-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .dish-card:hover .dish-img-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .dish-card h3 {
+            color: #ffffff;
+            font-size: 20px;
+            margin-bottom: 10px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .dish-card p {
+            color: #ddd;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            color: #ffcccc;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: auto;
+        }
+         .featured-section, .side.dishes {
+            padding: 60px 5%;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(8px);
+            margin-top: 40px;
+            border-top: 2px solid rgba(223, 29, 29, 0.5);
+        }
+
+        .section-title {
+            text-align: center;
+            color: #ffffff;
+            font-family: 'Cinzel', serif;
+            font-size: 36px;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .dish-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .dish-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dish-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(223, 29, 29, 0.3);
+            border-color: #df1d1d;
+        }
+
+        /* --- Image Box Fit Cover Wrapper Style --- */
+        .dish-img-wrapper {
+            width: 100%;
+            height: 220px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            background-color: #222;
+        }
+
+        .dish-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .dish-card:hover .dish-img-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .dish-card h3 {
+            color: #ffffff;
+            font-size: 20px;
+            margin-bottom: 10px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .dish-card p {
+            color: #ddd;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+
+        /* --- Footer Section --- */
+        footer {
+            background-color: #111111;
+            color: #fff;
+            padding: 50px 5% 20px 5%;
+            border-top: 1px solid #333;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+        }
+
+        .footer-col h4 {
+            color: #df1d1d;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .footer-col p, .footer-col a {
+            color: #bbb;
+            font-size: 14px;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: #ffffff;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-icons a {
+            background: #df1d1d;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+
+        .social-icons a:hover {
+            transform: scale(1.1);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #222;
+            padding-top: 20px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 900px) {
+            .dish-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .dish-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#" class="logo-area">
+                <i class="fa-solid fa-utensils"></i>
+                <h1>Krama & Spice</h1>
+            </a>
+            <div class="nav-links">
+                <a href="home.html">Home</a>
+                <a href="abtus.html">About Us</a>
+                <a href="menu.html">Menu</a>
+                <a href="booktable.html" class="book-btn">Book a Table</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Food Menu Section (Khmer + European + Updated Additional Dishes) -->
+    <section class="featured-section">
+        <h2 class="section-title">FOOD MENU</h2>
+        <div class="dish-grid">
+            <!-- Khmer Dishes -->
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="ahmok.jpg" alt="Amok Trey">
+                </div>
+                <h3>Amok Trey</h3>
+                <p>Traditional Cambodian fish mousse cooked delicately in banana leaves, infused with rich coconut milk and fresh Kroeung paste.</p>
+                <div class="price">$5.00</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="lokloak.jpg" alt="Beef Lok Lak">
+                </div>
+                <h3>Beef Lok Lak</h3>
+                <p>Tender stir-fried marinated beef cubes served over crisp lettuce, fresh tomatoes, and a zesty lime-pepper dipping sauce.</p>
+                <div class="price">$5.00</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="carry.webp" alt="Khmer Red Curry">
+                </div>
+                <h3>Khmer Red Curry</h3>
+                <p>An aromatic, mild coconut curry with chicken, sweet potatoes, green beans, and traditional herbs straight from the heart of Cambodia.</p>
+                <div class="price">$5.00</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="nom.jpg" alt="Num Banh Chok">
+                </div>
+                <h3>Num Banh Chok</h3>
+                <p>Fresh traditional Khmer rice noodles served with a greenish fish gravy, complemented by crisp raw vegetables and edible flowers.</p>
+                <div class="price">$5.00</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="bai.jpg" alt="Bai Sach Chrouk">
+                </div>
+                <h3>Bai Sach Chrouk</h3>
+                <p>Marinated grilled pork sliced thinly, served over warm broken rice with pickled vegetables and clear chicken broth.</p>
+                <div class="price">$4.00</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="koko.jpg" alt="Samlor Korkor">
+                </div>
+                <h3>Samlor Korkor</h3>
+                <p>A wholesome, traditional Cambodian soup loaded with mixed seasonal vegetables, roasted rice, and river fish or pork.</p>
+                <div class="price">$6.00</div>
+            </div>
+
+            <!-- European Dishes -->
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="pizza.jpg" alt="Neapolitan Margherita Pizza">
+                </div>
+                <h3>Neapolitan Margherita Pizza</h3>
+                <p>Classic Italian wood-fired pizza topped with San Marzano tomato sauce, fresh fior di latte mozzarella, basil, and extra virgin olive oil.</p>
+                <div class="price">$15.00</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" alt="Beef Bourguignon">
+                </div>
+                <h3>Beef Bourguignon</h3>
+                <p>Classic French stew of tender beef braised in rich red wine, garlic, pearl onions, mushrooms, and savory smoked bacon lardons.</p>
+                <div class="price">$9.50</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80" alt="Spaghetti Carbonara">
+                </div>
+                <h3>Authentic Spaghetti Carbonara</h3>
+                <p>Traditional Roman pasta tossed with crispy cured guanciale, pecorino romano cheese, fresh organic egg yolks, and cracked black pepper.</p>
+                <div class="price">$10.00</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=600&q=80" alt="Pan-Seared Salmon with Lemon Butter">
+                </div>
+                <h3>Pan-Seared Salmon</h3>
+                <p>Crispy-skinned Norwegian salmon fillet served over creamy herb risotto, drizzled with a tangy white wine and lemon-butter reduction.</p>
+                <div class="price">$12.00</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=600&q=80" alt="Wiener Schnitzel">
+                </div>
+                <h3>Traditional Wiener Schnitzel</h3>
+                <p>Austrian specialty of golden, crisp breaded pork cutlet, served alongside a warm potato-cucumber salad and a wedge of lemon.</p>
+                <div class="price">$11.50</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=600&q=80" alt="Classic Beef Lasagna">
+                </div>
+                <h3>Classic Baked Beef Lasagna</h3>
+                <p>Layers of delicate pasta sheets, slow-cooked bolognese ragù, creamy bechamel sauce, and melted mozzarella baked to perfection.</p>
+                <div class="price">$10.00</div>
+            </div>
+
+            <!-- Newly Added 6 Foods -->
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=600&q=80" alt="BBQ Chicken Pizza">
+                </div>
+                <h3>Barbecue Chicken Pizza</h3>
+                <p>Hand-tossed crust topped with smoky BBQ sauce, grilled chicken breast, red onions, fresh cilantro, and melted smoked gouda cheese.</p>
+                <div class="price">$12.00</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=600&q=80" alt="Japanese Tonkotsu Ramen">
+                </div>
+                <h3>Tonkotsu Ramen</h3>
+                <p>Rich, slow-simmered pork bone broth combined with springy noodles, tender chashu pork, a soft-boiled ajitsuke tamago egg, and nori.</p>
+                <div class="price">$9.00</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80" alt="Classic Tiramisu">
+                </div>
+                <h3>Classic Italian Tiramisu</h3>
+                <p>Decadent Italian dessert made of ladyfingers dipped in espresso, layered with a whipped mixture of eggs, sugar, and mascarpone cheese, dusted with cocoa.</p>
+                <div class="price">$8.50</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80" alt="Pepperoni Pizza Slice">
+                </div>
+                <h3>Artisan Pepperoni Pizza</h3>
+                <p>Hand-tossed crust topped with crushed tomatoes, whole-milk mozzarella cheese, and spicy sliced Italian pepperoni baked to a crisp finish.</p>
+                <div class="price">$14.00</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80" alt="Gourmet Cheeseburger">
+                </div>
+                <h3>Gourmet Smash Cheeseburger</h3>
+                <p>Two juicy beef patties smashed on the griddle with melted cheddar, crisp lettuce, ripe tomatoes, special house sauce, on a toasted brioche bun.</p>
+                <div class="price">$5.50</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80" alt="Traditional Bolognese Spaghetti">
+                </div>
+                <h3>Traditional Bolognese Spaghetti</h3>
+                <p>Al dente spaghetti noodles coated in a rich, slow-simmered Italian beef and tomato ragù, finished with freshly grated Parmigiano-Reggiano.</p>
+                <div class="price">$13.00</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Asian Cafe Drink Menu Section -->
+    <section class="featured-section">
+        <h2 class="section-title">DRINK MENU</h2>
+        <div class="dish-grid">
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80" alt="Ceremonial Matcha Latte">
+                </div>
+                <h3>Ceremonial Matcha Latte</h3>
+                <p>Vibrant, stone-ground Japanese Uji matcha whisked to perfection with creamy steamed milk and a touch of organic cane sugar.</p>
+                <div class="price">$5.50</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80" alt="Traditional Vietnamese Iced Coffee">
+                </div>
+                <h3>Vietnamese Iced Coffee (Café Sữa Đá)</h3>
+                <p>Bold, dark-roasted robusta coffee slow-dripped over rich, sweetened condensed milk and poured over crystal-clear ice.</p>
+                <div class="price">$4.75</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80" alt="Thai Iced Tea">
+                </div>
+                <h3>Thai Red Iced Tea (Cha Yen)</h3>
+                <p>Strongly brewed authentic Thai black tea spiced with star anise, cardamom, and tamarind, layered with evaporated milk.</p>
+                <div class="price">$4.50</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?auto=format&fit=crop&w=600&q=80" alt="Hojicha Roasted Green Tea">
+                </div>
+                <h3>Iced Hojicha Roasted Milk Tea</h3>
+                <p>Smoky, comforting Japanese roasted green tea blended with fresh milk and brown sugar syrup for a rich caramel undertone.</p>
+                <div class="price">$5.00</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80" alt="Pandan Coconut Cooler">
+                </div>
+                <h3>Pandan Coconut Cooler</h3>
+                <p>Refreshing, fragrant pandan leaf extract shaken with fresh coconut water and sweet coconut cream over crushed ice.</p>
+                <div class="price">$4.50</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80" alt="Lemongrass Jasmine Green Tea">
+                </div>
+                <h3>Lemongrass Jasmine Green Tea</h3>
+                <p>Delicate jasmine green tea infused with freshly bruised stalks of local lemongrass and a hint of fresh lime.</p>
+                <div class="price">$4.00</div>
+            </div>
+            <!-- Newly Added 3 Drinks -->
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1541658016709-82535e94bc69?auto=format&fit=crop&w=600&q=80" alt="Fresh Passion Fruit Fizz">
+                </div>
+                <h3>Fresh Passion Fruit Fizz</h3>
+                <p>Zesty and tropical fresh passion fruit puree blended with sparkling soda water and a hint of mint over crushed ice.</p>
+                <div class="price">$4.75</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="tea.jpg" alt="Taro Milk Tea with Boba">
+                </div>
+                <h3>Taro Milk Tea with Boba</h3>
+                <p>Creamy and sweet purple taro root blended with rich black milk tea and chewy, brown sugar-infused tapioca pearls.</p>
+                <div class="price">$5.25</div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80" alt="Iced Brown Sugar Espresso Shakerato">
+                </div>
+                <h3>Iced Brown Sugar Espresso Shakerato</h3>
+                <p>Double shot of rich espresso hand-shaken with pure brown sugar syrup and oat milk until light, frothy, and ice-cold.</p>
+                <div class="price">$5.00</div>
+            </div>
+        </div>
+    </section>
+    <section class="side dishes">
+        <h2 class="section-title">Khmer Snacks</h2>
+        <div class="dish-grid">
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="kong.jpg" alt="Num Kong">
+                </div>
+                <h3>Num Kong</h3>
+                <p>Traditional Cambodian ring-shaped rice flour donuts glazed with a rich, caramelized palm sugar coating.</p>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="sorm.jpg" alt="Num Ansorm">
+                </div>
+                <h3>Num Ansorm</h3>
+                <p>Sticky rice and sweet banana or savory pork wrapped tightly in banana leaves and boiled to perfection.</p>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="ai.jpg" alt="Num Plae Ai">
+                </div>
+                <h3>Num Plae Ai</h3>
+                <p>Chewy little rice flour dumplings filled with molten palm sugar and generously rolled in freshly grated coconut.</p>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="krok.jpg" alt="Num Krok">
+                </div>
+                <h3>Num Krok</h3>
+                <p>Crispy coconut-rice mini pancakes baked in a special clay pan, often paired with sweet fish sauce and herbs.</p>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="chap.jpg" alt="Banana Chips">
+                </div>
+                <h3>Chek Chab</h3>
+                <p>Crunchy, sweet-glazed deep-fried banana chips that make the ultimate nostalgic afternoon street snack.</p>
+            </div>
+            <div class="dish-card">
+                <div class="dish-img-wrapper">
+                    <img src="ma.jpg" alt="Num Pachok">
+                </div>
+                <h3>machu with chilli salt</h3>
+                <p>A popular cambodian snark made with fresh, Crunchy green mango served with a flavorfull mix of chili, salt, and sometime sugar.</p>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Krama & Spice</h4>
+                <p>Dedicated to sharing the authentic, vibrant heritage and rich tastes of Khmer food with food lovers everywhere.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="#">Our Menu</a>
+                <a href="#">Our Story</a>
+                <a href="#">Reservations</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <div class="footer-col">
+                <h4>Opening Hours</h4>
+                <p>Monday – Friday: 07:00 AM – 10:00 PM</p>
+                <p>Saturday – Sunday: 9:00 AM – 11:00 PM</p>
+            </div>
+            <div class="footer-col">
+                <h4>Connect With Us</h4>
+                <p>Follow our culinary journey on social media.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Krama & Spice Khmer Restaurant. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
